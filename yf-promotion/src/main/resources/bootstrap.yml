@@ -1,0 +1,74 @@
+server:
+  port: 8092  #端口
+  tomcat:
+    uri-encoding: UTF-8   #服务编码
+spring:
+  main:
+    allow-circular-references: true # 允许循环依赖
+  profiles:
+    active: dev
+  application:
+    name: promotion-service
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        shared-configs: # 共享配置
+          - data-id: shared-spring.yaml # 共享spring配置
+            refresh: false
+          - data-id: shared-redis.yaml # 共享redis配置
+            refresh: false
+          - data-id: shared-mybatis.yaml # 共享mybatis配置
+            refresh: false
+          - data-id: shared-logs.yaml # 共享日志配置
+            refresh: false
+          - data-id: shared-feign.yaml # 共享feign配置
+            refresh: false
+          - data-id: shared-xxljob.yaml # 共享xxljob配置
+            refresh: false
+          - data-id: shared-mq.yaml # 共享mq配置
+            refresh: false
+          - data-id: shared-seata.yaml # 共享sentinel配置
+            refresh: false
+          - data-id: shared-sentinel.yaml # 共享sentinel配置
+            refresh: false
+yf:
+  swagger:
+    enable: true
+    enableResponseWrap: true
+    package-path: com.yunfan.promotion.controller
+    title: 云帆课堂 - 促销中心接口文档
+    description: 该服务包含优惠促销有关的功能
+    contact-name: 云帆学堂
+    contact-url: https://www.yunfan.com/
+    contact-email: xleyyds1314@users.noreply.github.com
+    version: v1.0
+  jdbc:
+    database: yf_promotion
+  auth:
+    resource:
+      enable: true # 开启登录拦截的功能
+      excludeLoginPaths:
+        - /coupons/list #放行路径
+        - /user-coupons/hello #测试路径
+        - /user-coupons/seata
+        - /user-coupons/limit
+  mq:
+    listener:
+      retry:
+        stateless: false # 无状态
+# dubbo相关配置
+#dubbo:
+#  application:
+#    name: ${spring.application.name}
+#  registry:
+#    address: nacos://192.168.150.101:8848
+#  protocol:
+#    name: dubbo
+#    # 协议端口（ -1 表示自增端口，从 20880 开始）
+#    port: -1
+#    id: dubbo
+#  cloud:
+#    subscribed-services: learning-service
+#  consumer:
+#    check: false  # 启动时不检查提供者是否存在

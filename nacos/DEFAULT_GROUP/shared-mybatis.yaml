@@ -1,0 +1,14 @@
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    field-strategy: 0
+    db-config:
+      logic-delete-field: deleted
+      id-type: assign_id
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${yf.jdbc.host:127.0.0.1}:${yf.jdbc.port:3306}/${yf.jdbc.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: ${yf.jdbc.username:root}
+    password: ${yf.jdbc.password:123456}

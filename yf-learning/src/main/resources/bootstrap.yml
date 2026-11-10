@@ -1,0 +1,62 @@
+server:
+  port: 8090  #端口
+  tomcat:
+    uri-encoding: UTF-8   #服务编码
+spring:
+  main:
+    allow-circular-references: true # 允许循环依赖
+  profiles:
+    active: dev
+  application:
+    name: learning-service
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        shared-configs: # 共享配置
+          - data-id: shared-spring.yaml # 共享spring配置
+            refresh: false
+          - data-id: shared-redis.yaml # 共享redis配置
+            refresh: false
+          - data-id: shared-mybatis.yaml # 共享mybatis配置
+            refresh: false
+          - data-id: shared-logs.yaml # 共享日志配置
+            refresh: false
+          - data-id: shared-feign.yaml # 共享feign配置
+            refresh: false
+          - data-id: shared-mq.yaml # 共享mq配置
+            refresh: false
+          - data-id: shared-xxljob.yaml # 共享xxl-job配置
+            refresh: false
+yf:
+  swagger:
+    enable: true
+    enableResponseWrap: true
+    package-path: com.yunfan.learning.controller
+    title: 云帆学堂 - 学习中心接口文档
+    description: 该服务包含用户学习的各种辅助功能
+    contact-name: 云帆学堂
+    contact-url: https://www.yunfan.com/
+    contact-email: xleyyds1314@users.noreply.github.com
+    version: v1.0
+  jdbc:
+    database: yf_learning
+  auth:
+    resource:
+      enable: true
+logging:
+  config: classpath:logback-spring.xml
+#dubbo:
+#  application:
+#    name: ${spring.application.name}
+#  registry:
+#    address: nacos://192.168.150.101:8848
+#  protocol:
+#    name: dubbo
+#    # 协议端口（ -1 表示自增端口，从 20880 开始）
+#    port: -1
+#    id: dubbo
+#  scan:
+#    base-packages: com.yunfan.learning.dubbo.server  # 扫描服务实现类的包
+#  cloud:
+#    subscribed-services:    # 订阅的服务（暂无）

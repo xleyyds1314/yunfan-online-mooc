@@ -1,0 +1,33 @@
+package com.yunfan.learning.task;/**
+ * @author xleyyds1314
+ * @date 2025/5/23 8:29
+ */
+
+import com.yunfan.learning.constants.RedisConstants;
+import com.yunfan.learning.service.IEvaluationService;
+import com.xxl.job.core.handler.annotation.XxlJob;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * @Author: fsq
+ * @Date: 2025/5/23 8:29
+ * @Version: 1.0
+ */
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class CourseEvaluationScoreUpdateHandler {
+
+    private final IEvaluationService evaluationService;
+
+    @XxlJob("getAllCourseAvgScoreToUpdate")
+    public void getAllCourseAvgScoreToUpdate(){
+        evaluationService.getAllCourseAvgScore();
+    }
+}

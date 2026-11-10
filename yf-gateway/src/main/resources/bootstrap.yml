@@ -1,0 +1,123 @@
+server:
+  port: 10010  #端口
+  tomcat:
+    uri-encoding: UTF-8   #服务编码
+spring:
+  codec:
+    max-in-memory-size: 12MB  # 根据需要调整
+  profiles:
+    active: dev
+  application:
+    name: gateway-service
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        shared-configs: # 共享配置
+          - data-id: shared-spring.yaml # 共享spring配置
+            refresh: false
+          - data-id: shared-redis.yaml # 共享redis配置
+            refresh: false
+          - data-id: shared-logs.yaml # 共享日志配置
+            refresh: false
+          - data-id: shared-mq.yaml # 共享mq配置
+            refresh: false
+    gateway:
+      routes:
+        - id: ms
+          uri: lb://media-service
+          predicates:
+            - Path=/ms/**
+        - id: as
+          uri: lb://auth-service
+          predicates:
+            - Path=/as/**
+          filters:
+            - PreserveHostHeader
+        - id: ds
+          uri: lb://data-service
+          predicates:
+            - Path=/ds/**
+        - id: sms
+          uri: lb://message-service
+          predicates:
+            - Path=/sms/**
+        - id: sms
+          uri: lb:ws://message-service  # 使用 ws 协议进行转发--私信websocket
+          predicates:
+            - Path=/sms/**
+          filters:
+            - StripPrefix=1
+        - id: us
+          uri: lb://user-service
+          predicates:
+            - Path=/us/**
+        - id: cs
+          uri: lb://course-service
+          predicates:
+            - Path=/cs/**
+        - id: os
+          uri: lb://order-service
+          predicates:
+            - Path=/os/**
+        - id: ss
+          uri: lb://search-service
+          predicates:
+            - Path=/ss/**
+        - id: ls
+          uri: lb://learning-service
+          predicates:
+            - Path=/ls/**
+        - id: ps
+          uri: lb://pay-service
+          predicates:
+            - Path=/ps/**
+        - id: ts
+          uri: lb://trade-service
+          predicates:
+            - Path=/ts/**
+        - id: es
+          uri: lb://exam-service
+          predicates:
+            - Path=/es/**
+        - id: rs
+          uri: lb://remark-service
+          predicates:
+            - Path=/rs/**
+        - id: prs
+          uri: lb://promotion-service
+          predicates:
+            - Path=/prs/**
+        - id: lv
+          uri: lb://live-service
+          predicates:
+            - Path=/lv/**
+        - id: ct
+          # chat-service 已改造为 Python 服务（yf-chat-python，端口 8094），
+          # 未注册 Nacos，故用静态 URI 直连；StripPrefix=1 会把 /ct 前缀剥掉后转发
+          uri: http://127.0.0.1:8094
+          predicates:
+            - Path=/ct/**
+      default-filters:
+        - StripPrefix=1
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns: # 允许哪些网站的跨域请求
+              - "*"
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 20s
+logging:
+  level:
+    com.yunfan: debug

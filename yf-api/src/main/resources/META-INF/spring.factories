@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.yunfan.api.config.RequestIdRelayConfiguration, \
+  com.yunfan.api.config.RoleCacheConfig, \
+  com.yunfan.api.config.FallbackConfig, \
+  com.yunfan.api.config.CategoryCacheConfig

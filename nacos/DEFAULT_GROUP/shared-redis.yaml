@@ -1,0 +1,9 @@
+spring:
+  redis:
+    host: ${yf.redis.host:127.0.0.1}
+    lettuce:
+      pool:
+        max-active: ${yf.redis.pool.max-active:8}
+        max-idle: ${yf.redis.pool.max-idle:8}
+        min-idle: ${yf.redis.pool.min-idle:1}
+        max-wait: ${yf.redis.pool.max-wait:300}

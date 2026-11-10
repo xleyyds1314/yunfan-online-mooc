@@ -1,0 +1,15 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ com.yunfan.common.autoconfigure.mq.MqConfig,\
+ com.yunfan.common.autoconfigure.mvc.JsonConfig,\
+ com.yunfan.common.autoconfigure.mvc.MvcConfig,\
+ com.yunfan.common.autoconfigure.mvc.ParamCheckerConfig,\
+ com.yunfan.common.autoconfigure.mybatis.MybatisConfig,\
+ com.yunfan.common.autoconfigure.redisson.RedissonConfig,\
+ com.yunfan.common.autoconfigure.swagger.Knife4jConfiguration, \
+ com.yunfan.common.autoconfigure.xxljob.XxlJobConfig,\
+ com.yunfan.common.autoconfigure.ratelimite.LimiterConfig
+
+
+
+
+# com.yunfan.common.autoconfigure.mq.RocketMqConfig,

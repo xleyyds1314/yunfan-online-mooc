@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${yf.mongo.username:yunfan}:${yf.mongo.password:123}@${yf.mongo.ip:127.0.0.1}:${yf.mongo.port:27017}/${yf.mongo.database:exam}

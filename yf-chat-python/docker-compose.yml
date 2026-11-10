@@ -1,0 +1,42 @@
+# =============================================================================
+# 【Docker 入门实战】一条命令拉起本项目的全部中间件：docker compose up -d
+#
+# 说明：
+#   1. AI 服务依赖的向量库与缓存统一收进 docker-compose，
+#      一条命令、随处可跑，保证环境一致。
+#   2. service = 一个容器；volumes = 数据落盘（容器删了数据还在）；ports = 端口映射
+#      "宿主机:容器内"。
+#   3. 常用命令：
+#        docker compose up -d      # 后台启动
+#        docker compose ps         # 看运行状态
+#        docker compose logs -f    # 跟日志
+#        docker compose down       # 停止并删容器（数据卷保留）
+# =============================================================================
+
+services:
+
+  # ---- ChromaDB：向量数据库 ----
+  chroma:
+    image: chromadb/chroma:1.5.9      # 版本必须与 requirements.txt 里的客户端一致
+    container_name: yf-chroma
+    ports:
+      - "8000:8000"                   # 宿主机 8000 -> 容器 8000，代码里 CHROMA_PORT 对应
+    volumes:
+      - chroma_data:/chroma/chroma    # 向量数据持久化到数据卷，重启不丢
+    restart: unless-stopped
+
+  # ---- Redis：存对话记忆（chat:memory:{userId}:{sessionId}）----
+  redis:
+    image: redis:7-alpine             # alpine = 精简镜像，体积小启动快
+    container_name: yf-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes   # 开 AOF 持久化，重启不丢记忆
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+# 命名卷：由 Docker 统一管理存储位置（docker volume ls 可查看）
+volumes:
+  chroma_data:
+  redis_data:
